@@ -194,5 +194,3 @@ This project is licensed under the MIT License.
 **Gopal**
 Full Stack AI Engineer | Mern Stack Developer
 
-Just tell me 👍
-```
