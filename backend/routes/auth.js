@@ -8,16 +8,27 @@ dotenv.config();
 
 const router = express.Router();
 
-// ✅ ALWAYS use env (NO fallback localhost)
 const CLIENT_URL = process.env.CLIENT_URL;
+
 
 // ================= COOKIE OPTIONS =================
 const getCookieOptions = () => ({
   expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   httpOnly: true,
-  secure: true,        // 🔥 HTTPS required (Render + Vercel)
-  sameSite: 'none',    // 🔥 cross-origin required
+  secure: true,        // ✅ required for HTTPS
+  sameSite: 'none',    // ✅ required for cross-origin
 });
+
+
+// ================= FORMAT USER =================
+const formatUser = (user) => ({
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  avatar: user.avatar,
+  language: user.language,
+});
+
 
 // ================= REGISTER =================
 router.post('/register', async (req, res) => {
@@ -40,14 +51,15 @@ router.post('/register', async (req, res) => {
       .json({
         success: true,
         message: 'Registration successful',
-        user,
-        token,
+        user: formatUser(user),
       });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 // ================= LOGIN =================
 router.post('/login', async (req, res) => {
@@ -82,23 +94,32 @@ router.post('/login', async (req, res) => {
       .json({
         success: true,
         message: 'Login successful',
-        user,
-        token,
+        user: formatUser(user),
       });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
+
 // ================= GOOGLE LOGIN =================
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get(
+  '/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false, // ✅ IMPORTANT (no session dependency)
+  })
+);
+
 
 // ================= GOOGLE CALLBACK =================
 router.get(
   '/google/callback',
   passport.authenticate('google', {
     failureRedirect: `${CLIENT_URL}/login`,
+    session: false, // ✅ IMPORTANT
   }),
   async (req, res) => {
     try {
@@ -106,22 +127,25 @@ router.get(
 
       res.cookie('token', token, getCookieOptions());
 
-      // ✅ ALWAYS redirect to frontend
+      // ✅ redirect to frontend dashboard
       return res.redirect(`${CLIENT_URL}/dashboard`);
 
     } catch (error) {
+      console.error(error);
       return res.redirect(`${CLIENT_URL}/login`);
     }
   }
 );
 
+
 // ================= CURRENT USER =================
 router.get('/me', protect, async (req, res) => {
   res.status(200).json({
     success: true,
-    user: req.user,
+    user: formatUser(req.user),
   });
 });
+
 
 // ================= LOGOUT =================
 router.post('/logout', (req, res) => {
@@ -132,9 +156,11 @@ router.post('/logout', (req, res) => {
     sameSite: 'none',
   });
 
-  if (req.logout) req.logout(() => {});
-
-  res.status(200).json({ success: true, message: 'Logged out successfully' });
+  res.status(200).json({
+    success: true,
+    message: 'Logged out successfully',
+  });
 });
+
 
 export default router;
