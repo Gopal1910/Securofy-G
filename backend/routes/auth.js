@@ -8,33 +8,16 @@ dotenv.config();
 
 const router = express.Router();
 
-// ❌ REMOVE fallback localhost (important fix)
+// ✅ ALWAYS use env (NO fallback localhost)
 const CLIENT_URL = process.env.CLIENT_URL;
 
-const sendTokenResponse = (user, statusCode, res, message = 'Success') => {
-  const token = generateToken(user._id);
-
-  res
-    .status(statusCode)
-    .cookie('token', token, {
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-      secure: true,        // 🔥 required for production (HTTPS)
-      sameSite: 'none',    // 🔥 required for cross-origin (Vercel + Render)
-    })
-    .json({
-      success: true,
-      message,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        language: user.language,
-      },
-      token,
-    });
-};
+// ================= COOKIE OPTIONS =================
+const getCookieOptions = () => ({
+  expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  httpOnly: true,
+  secure: true,        // 🔥 HTTPS required (Render + Vercel)
+  sameSite: 'none',    // 🔥 cross-origin required
+});
 
 // ================= REGISTER =================
 router.post('/register', async (req, res) => {
@@ -49,7 +32,18 @@ router.post('/register', async (req, res) => {
 
     user = await User.create({ name, email, password });
 
-    sendTokenResponse(user, 201, res, 'Registration successful');
+    const token = generateToken(user._id);
+
+    res
+      .status(201)
+      .cookie('token', token, getCookieOptions())
+      .json({
+        success: true,
+        message: 'Registration successful',
+        user,
+        token,
+      });
+
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });
   }
@@ -80,9 +74,20 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    sendTokenResponse(user, 200, res, 'Login successful');
+    const token = generateToken(user._id);
+
+    res
+      .status(200)
+      .cookie('token', token, getCookieOptions())
+      .json({
+        success: true,
+        message: 'Login successful',
+        user,
+        token,
+      });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 
@@ -93,23 +98,19 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: `${process.env.CLIENT_URL}/login`,
+    failureRedirect: `${CLIENT_URL}/login`,
   }),
   async (req, res) => {
     try {
       const token = generateToken(req.user._id);
 
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      });
+      res.cookie('token', token, getCookieOptions());
 
-      // ✅ FINAL REDIRECT (NO LOCALHOST EVER)
-      res.redirect(`${process.env.CLIENT_URL}/dashboard`);
+      // ✅ ALWAYS redirect to frontend
+      return res.redirect(`${CLIENT_URL}/dashboard`);
+
     } catch (error) {
-      res.redirect(`${process.env.CLIENT_URL}/login`);
+      return res.redirect(`${CLIENT_URL}/login`);
     }
   }
 );
