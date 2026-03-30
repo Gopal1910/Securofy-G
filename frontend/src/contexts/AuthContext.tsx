@@ -50,10 +50,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const loginGoogle = () => {
-    window.location.href = `${api.defaults.baseURL || 'http://localhost:5000/api'}/auth/google`;
-  };
-
+ const loginGoogle = () => {
+  const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  window.location.href = `${BASE}/api/auth/google`;
+};
   const login = async (data: any) => {
     const res = await api.post('/auth/login', data);
     setUser(res.data.user);
