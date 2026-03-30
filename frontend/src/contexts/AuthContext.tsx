@@ -13,9 +13,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   logout: () => void;
-  loginGoogle: () => void;
-  login: (data: any) => Promise<void>;
-  register: (data: any) => Promise<void>;
+  login: (data: { email: string; password: string }) => Promise<void>;
+  register: (data: { name: string; email: string; password: string }) => Promise<void>;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
@@ -50,22 +49,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
- const loginGoogle = () => {
-  const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-  window.location.href = `${BASE}/api/auth/google`;
-};
-  const login = async (data: any) => {
+  const login = async (data: { email: string; password: string }) => {
     const res = await api.post('/auth/login', data);
     setUser(res.data.user);
   };
 
-  const register = async (data: any) => {
+  const register = async (data: { name: string; email: string; password: string }) => {
     const res = await api.post('/auth/register', data);
     setUser(res.data.user);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout, loginGoogle, login, register, setUser }}>
+    <AuthContext.Provider value={{ user, loading, logout, login, register, setUser }}>
       {children}
     </AuthContext.Provider>
   );

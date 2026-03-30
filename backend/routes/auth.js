@@ -1,5 +1,4 @@
 import express from 'express';
-import passport from 'passport';
 import dotenv from 'dotenv';
 import User from '../models/User.js';
 import { generateToken, protect } from '../middleware/auth.js';
@@ -7,8 +6,6 @@ import { generateToken, protect } from '../middleware/auth.js';
 dotenv.config();
 
 const router = express.Router();
-
-const CLIENT_URL = process.env.CLIENT_URL;
 
 
 // ================= COOKIE OPTIONS =================
@@ -78,9 +75,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    if (!user.password && user.googleId) {
-      return res.status(401).json({ success: false, message: 'Please login with Google' });
-    }
+
 
     const isMatch = await user.comparePassword(password);
 
@@ -106,38 +101,10 @@ router.post('/login', async (req, res) => {
 });
 
 
-// ================= GOOGLE LOGIN =================
-router.get(
-  '/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-    session: false, // ✅ IMPORTANT (no session dependency)
-  })
-);
 
 
-// ================= GOOGLE CALLBACK =================
-router.get(
-  '/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: `${CLIENT_URL}/login`,
-    session: false, // ✅ IMPORTANT
-  }),
-  async (req, res) => {
-    try {
-      const token = generateToken(req.user._id);
 
-      res.cookie('token', token, getCookieOptions());
 
-      // ✅ redirect to frontend dashboard
-      return res.redirect(`${CLIENT_URL}/dashboard`);
-
-    } catch (error) {
-      console.error(error);
-      return res.redirect(`${CLIENT_URL}/login`);
-    }
-  }
-);
 
 
 // ================= CURRENT USER =================
@@ -151,12 +118,11 @@ router.get('/me', protect, async (req, res) => {
 
 // ================= LOGOUT =================
 router.post('/logout', (req, res) => {
- res.cookie('token', 'none', {
-  expires: new Date(Date.now() + 10 * 1000),
+ res.clearCookie('token', {
   httpOnly: true,
   secure: true,
   sameSite: 'none',
-  path: '/', // ✅ ADD HERE ALSO
+  path: '/',
   domain: '.onrender.com',
 });
 
