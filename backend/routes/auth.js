@@ -15,8 +15,9 @@ const CLIENT_URL = process.env.CLIENT_URL;
 const getCookieOptions = () => ({
   expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   httpOnly: true,
-  secure: true,        // ✅ required for HTTPS
-  sameSite: 'none',    // ✅ required for cross-origin
+  secure: true,
+  sameSite: 'none',
+  path: '/', // ✅ VERY IMPORTANT (missing piece)
 });
 
 
@@ -149,12 +150,13 @@ router.get('/me', protect, async (req, res) => {
 
 // ================= LOGOUT =================
 router.post('/logout', (req, res) => {
-  res.cookie('token', 'none', {
-    expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-  });
+ res.cookie('token', 'none', {
+  expires: new Date(Date.now() + 10 * 1000),
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  path: '/', // ✅ ADD HERE ALSO
+});
 
   res.status(200).json({
     success: true,
