@@ -1,0 +1,30 @@
+{
+  "dashboard": {
+    "welcome": "सुस्वागतम",
+    "overview": "सुरक्षा आढावा",
+    "recent_activity": "अलीकडील हालचाली"
+  },
+  "nav": {
+    "dashboard": "डॅशबोर्ड",
+    "learn": "शिका",
+    "simulator": "सिम्युलेटर",
+    "alerts": "इशारे",
+    "quiz": "मंजुषा",
+    "profile": "प्रोफाइल",
+    "settings": "सेटिंग्ज",
+    "logout": "बाहेर पडा"
+  },
+  "auth": {
+    "login": "लॉगिन करा",
+    "signup": "साइन अप करा",
+    "email": "ईमेल पत्ता",
+    "password": "पासवर्ड",
+    "name": "पूर्ण नाव",
+    "continue_google": "Google सह सुरू करा",
+    "create_account": "खाते तयार करा",
+    "welcome_back": "तुमचे स्वागत आहे",
+    "login_desc": "पुढे जाण्यासाठी तुमच्या खात्यात लॉग इन करा.",
+    "no_account": "खाते नाही का?",
+    "have_account": "आधीपासूनच खाते आहे का?"
+  }
+}

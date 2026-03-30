@@ -1,0 +1,30 @@
+{
+  "dashboard": {
+    "welcome": "सुस्वागतम्",
+    "overview": "सुरक्षा अवलोकन",
+    "recent_activity": "हाल की गतिविधि"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "learn": "सीखें",
+    "simulator": "सिम्युलेटर",
+    "alerts": "अलर्ट",
+    "quiz": "प्रश्नोत्तरी",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स",
+    "logout": "लॉग आउट"
+  },
+  "auth": {
+    "login": "लॉगिन करें",
+    "signup": "साइन अप करें",
+    "email": "ईमेल पता",
+    "password": "पासवर्ड",
+    "name": "पूरा नाम",
+    "continue_google": "Google के साथ जारी रखें",
+    "create_account": "खाता बनाएं",
+    "welcome_back": "वापसी पर स्वागत है",
+    "login_desc": "जारी रखने के लिए अपने खाते में लॉगिन करें।",
+    "no_account": "क्या आपके पास खाता नहीं है?",
+    "have_account": "क्या आपके पास पहले से खाता है?"
+  }
+}

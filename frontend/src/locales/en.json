@@ -1,0 +1,30 @@
+{
+  "dashboard": {
+    "welcome": "Welcome",
+    "overview": "Security Overview",
+    "recent_activity": "Recent Activity"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "learn": "Learn",
+    "simulator": "Simulator",
+    "alerts": "Alerts",
+    "quiz": "Quiz",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email Address",
+    "password": "Password",
+    "name": "Full Name",
+    "continue_google": "Continue with Google",
+    "create_account": "Create an Account",
+    "welcome_back": "Welcome Back",
+    "login_desc": "Log in to your account to continue.",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?"
+  }
+}

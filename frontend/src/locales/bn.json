@@ -1,0 +1,30 @@
+{
+  "dashboard": {
+    "welcome": "স্বাগতম",
+    "overview": "নিরাপত্তা ওভারভিউ",
+    "recent_activity": "সাম্প্রতিক কাজ"
+  },
+  "nav": {
+    "dashboard": "ড্যাশবোর্ড",
+    "learn": "শিখুন",
+    "simulator": "সিমুলেটর",
+    "alerts": "সতর্কতা",
+    "quiz": "কুইজ",
+    "profile": "প্রোফাইল",
+    "settings": "সেটিংস",
+    "logout": "প্রস্থান করুন"
+  },
+  "auth": {
+    "login": "লগইন",
+    "signup": "সাইন আপ",
+    "email": "ইমেল ঠিকানা",
+    "password": "পাসওয়ার্ড",
+    "name": "পুরো নাম",
+    "continue_google": "Google এর সাথে চালিয়ে যান",
+    "create_account": "অ্যাকাউন্ট তৈরি করুন",
+    "welcome_back": "ফিরে আসার জন্য স্বাগতম",
+    "login_desc": "চালিয়ে যেতে আপনার অ্যাকাউন্টে লগ ইন করুন।",
+    "no_account": "অ্যাকাউন্ট নেই?",
+    "have_account": "ইতিমধ্যেই অ্যাকাউন্ট আছে?"
+  }
+}

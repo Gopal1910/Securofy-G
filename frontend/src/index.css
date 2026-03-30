@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 20% 2%;
+    --foreground: 0 0% 100%;
+
+    --card: 240 15% 6%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 240 15% 8%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 185 100% 50%;
+    --primary-foreground: 240 20% 2%;
+
+    --secondary: 270 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 215 20% 16%;
+    --muted-foreground: 215 16% 57%;
+
+    --accent: 270 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 16%;
+    --input: 215 20% 16%;
+    --ring: 185 100% 50%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 240 18% 4%;
+    --sidebar-foreground: 215 16% 57%;
+    --sidebar-primary: 185 100% 50%;
+    --sidebar-primary-foreground: 240 20% 2%;
+    --sidebar-accent: 240 15% 10%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 20% 12%;
+    --sidebar-ring: 185 100% 50%;
+
+    /* Custom tokens */
+    --neon-cyan: 185 100% 50%;
+    --neon-purple: 270 100% 50%;
+    --neon-red: 0 100% 60%;
+    --glass-bg: 240 15% 8%;
+    --glass-border: 185 80% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply relative rounded-xl border border-border/30 overflow-hidden;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--glass-bg) / 0.6),
+      hsl(var(--glass-bg) / 0.3)
+    );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-card-glow {
+    @apply glass-card;
+    border-image: linear-gradient(
+      135deg,
+      hsl(var(--neon-cyan) / 0.4),
+      hsl(var(--neon-purple) / 0.4)
+    ) 1;
+    border-image-slice: 1;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 15px hsl(var(--neon-cyan) / 0.3),
+                0 0 30px hsl(var(--neon-cyan) / 0.1);
+  }
+
+  .neon-glow-purple {
+    box-shadow: 0 0 15px hsl(var(--neon-purple) / 0.3),
+                0 0 30px hsl(var(--neon-purple) / 0.1);
+  }
+
+  .neon-text {
+    color: hsl(var(--neon-cyan));
+    text-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5),
+                 0 0 20px hsl(var(--neon-cyan) / 0.2);
+  }
+
+  .gradient-border {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--neon-cyan) / 0.5),
+      hsl(var(--neon-purple) / 0.5)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .pulse-alert {
+    animation: pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-neon {
+    0%, 100% {
+      box-shadow: 0 0 5px hsl(var(--neon-red) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 20px hsl(var(--neon-red) / 0.6),
+                  0 0 40px hsl(var(--neon-red) / 0.2);
+    }
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .scan-line::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--neon-cyan) / 0.1), transparent);
+    animation: scan-line 8s linear infinite;
+    pointer-events: none;
+    z-index: 100;
+  }
+}
