@@ -129,10 +129,10 @@ const AIChatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-[999] w-full sm:w-[380px] h-[100dvh] sm:h-[520px] rounded-none sm:rounded-xl glass-card flex flex-col overflow-hidden neon-glow !border-0 sm:!border"
+            className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-[999] w-full sm:w-[380px] h-[100dvh] sm:h-[520px] rounded-none sm:rounded-xl bg-background flex flex-col overflow-hidden shadow-2xl"
           >
             {/* Header */}
-            <div className="p-4 pt-[max(1rem,env(safe-area-inset-top))] border-b border-border/30 flex items-center justify-between bg-background/50 backdrop-blur-md">
+            <div className="p-4 pt-[max(1rem,env(safe-area-inset-top))] border-b border-border flex items-center justify-between bg-background">
               <div className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center animate-glow-pulse">
                   <MessageCircle className="h-4 w-4 text-primary-foreground" />
@@ -166,7 +166,7 @@ const AIChatbot = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-background">
               {messages.map((msg, i) => (
                 <motion.div
                   key={i}
@@ -177,8 +177,8 @@ const AIChatbot = () => {
                   <div
                     className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${
                       msg.role === "user"
-                        ? "bg-primary/20 text-foreground rounded-br-sm"
-                        : "bg-muted/50 text-foreground rounded-bl-sm"
+                        ? "bg-primary text-primary-foreground rounded-br-sm"
+                        : "bg-muted text-foreground rounded-bl-sm"
                     }`}
                   >
                     {msg.content}
@@ -187,7 +187,7 @@ const AIChatbot = () => {
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-muted/50 px-4 py-2 rounded-xl rounded-bl-sm">
+                  <div className="bg-muted px-4 py-2 rounded-xl rounded-bl-sm">
                     <div className="flex gap-1">
                       <span className="h-2 w-2 rounded-full bg-primary/60 animate-bounce" style={{ animationDelay: "0ms" }} />
                       <span className="h-2 w-2 rounded-full bg-primary/60 animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -200,7 +200,7 @@ const AIChatbot = () => {
             </div>
 
             {/* Input */}
-            <div className="p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-border/30 bg-background/50 backdrop-blur-md">
+            <div className="p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-border bg-background">
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleVoiceInput}
@@ -215,12 +215,12 @@ const AIChatbot = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Ask about financial safety..."
-                  className="flex-1 bg-muted/30 rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary/50"
+                  className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-1 focus:ring-primary/50"
                 />
                 <button
                   onClick={handleSend}
                   disabled={!input.trim()}
-                  className="p-2 rounded-lg bg-primary/20 text-primary hover:bg-primary/30 transition-colors disabled:opacity-30"
+                  className="p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-30"
                 >
                   <Send className="h-4 w-4" />
                 </button>
