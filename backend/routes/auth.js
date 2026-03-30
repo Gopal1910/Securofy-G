@@ -18,6 +18,7 @@ const getCookieOptions = () => ({
   secure: true,
   sameSite: 'none',
   path: '/', // ✅ VERY IMPORTANT (missing piece)
+  domain: '.onrender.com',
 });
 
 
@@ -156,6 +157,7 @@ router.post('/logout', (req, res) => {
   secure: true,
   sameSite: 'none',
   path: '/', // ✅ ADD HERE ALSO
+  domain: '.onrender.com',
 });
 
   res.status(200).json({
