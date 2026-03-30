@@ -4,12 +4,15 @@ import User from '../models/User.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// 👇 YAHAN ADD KARO
+console.log("🔥 CALLBACK URL:", process.env.GOOGLE_CALLBACK_URL);
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL, // 🔥 FIXED
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
