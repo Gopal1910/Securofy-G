@@ -28,7 +28,7 @@ It helps users understand fraud techniques, simulate real-world scams, and inter
 ### 🔐 Authentication System
 - JWT-based authentication  
 - Secure login & registration  
-- Protected routes  
+- Protected routes   
 
 ### 🌐 Modern UI
 - Clean and responsive design  
